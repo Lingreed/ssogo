@@ -1,0 +1,12 @@
+#服务配置
+server:
+  #address: 127.0.0.1
+  port: 20000
+  servlet-path: /sso/
+  tomcat:
+    compression: on
+
+###spring配置
+spring:
+  profiles:
+      active: default
