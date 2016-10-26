@@ -19,7 +19,7 @@ public class JwtHelper {
     public static Claims parseJWT(String jsonWebToken,String base64Security){
         try{
             Claims claims = Jwts.parser()
-                    .setSigningKey(DatatypeConverter.parseBase64Binary(base64Security))
+                    .setSigningKey(base64Security)
                     .parseClaimsJws(jsonWebToken).getBody();
             return claims;
         }
@@ -29,24 +29,21 @@ public class JwtHelper {
 
     }
 
-    public static String createJWT(String name, String userId, String role,
-                                   String audience, String issuer, long TTLMillis, String base64Security){
+    public static String createJWT(String userName, String userId, String ip, long TTLMillis, String base64Security){
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
 
-        //生存签名密钥
+        //生成签名密钥
         byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(base64Security);
-        Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
+        Key key = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
 
         //添加构成JWT的参数
-        JwtBuilder builder = Jwts.builder().setHeaderParam("typ", "JWT").claim("role",role)
-                                            .claim("unique_name",name)
-                                            .claim("userid", userId)
-                                            .setIssuer(issuer)
-                                            .setAudience(audience)
-                                            .signWith(signatureAlgorithm,signingKey);
+        JwtBuilder builder = Jwts.builder().setHeaderParam("typ", "JWT")
+                                            .claim("userName",userName)
+                                            .claim("userId", userId)
+                                            .claim("ip", ip)
+                                            .signWith(signatureAlgorithm, key);
         //添加token过期时间
         if(TTLMillis >= 0){
             long expMillis = nowMillis + TTLMillis;

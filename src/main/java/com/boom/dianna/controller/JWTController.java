@@ -1,11 +1,12 @@
 package com.boom.dianna.controller;
 
-import com.boom.dianna.service.ILoginService;
+import com.boom.dianna.dto.LoginPara;
+import com.boom.dianna.dto.ResultMsg;
+import com.boom.dianna.service.IJwtService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Author: lin.xj
@@ -16,12 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class JWTController {
 
     @Autowired
-    private ILoginService loginService;
+    private IJwtService jwtService;
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    @ResponseBody
-    public Object login(){
-
-        return null;
+    @RequestMapping("oauth/token")
+    public Object getAccessToken(HttpServletRequest request, @RequestBody LoginPara loginPara)
+    {
+        String ip = request.getRemoteAddr();
+        loginPara.setIp(ip);
+        ResultMsg resultMsg = (ResultMsg) jwtService.getAccessToken(loginPara);
+        return resultMsg;
     }
 }

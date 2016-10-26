@@ -1,4 +1,4 @@
-package com.boom.dianna.domain;
+package com.boom.dianna.dto;
 
 /**
  * Author: lin.xj

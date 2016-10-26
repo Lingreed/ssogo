@@ -2,7 +2,7 @@
 server:
   #address: 127.0.0.1
   port: 20000
-  servlet-path: /sso/
+#  servlet-path: /sso/
   tomcat:
     compression: on
 
@@ -10,3 +10,22 @@ server:
 spring:
   profiles:
       active: default
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/ssogo
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    hibernate:
+      ddl-auto: update
+
+
+#logging:
+#  config: classpath:logback-dev.xml
+
+jwt:
+  base64Security: Ym9vbTIwMTQ=
+  expiresSecond: 86400
