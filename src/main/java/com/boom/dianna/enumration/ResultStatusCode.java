@@ -8,6 +8,7 @@ package com.boom.dianna.enumration;
 public enum ResultStatusCode {
     OK(0, "OK"),
     SYSTEM_ERR(30001, "System error"),
+    INVALID_PARAMETER(30002, "Invalid parameter!"),
     INVALID_CLIENTID(30003, "Invalid clientid"),
     INVALID_PASSWORD(30004, "User name or password is incorrect"),
     INVALID_CAPTCHA(30005, "Invalid captcha or captcha overdue"),
@@ -16,7 +17,7 @@ public enum ResultStatusCode {
     private int errcode;
     private String errmsg;
 
-    private ResultStatusCode(int Errode, String ErrMsg)
+    ResultStatusCode(int Errode, String ErrMsg)
     {
         this.errcode = Errode;
         this.errmsg = ErrMsg;
