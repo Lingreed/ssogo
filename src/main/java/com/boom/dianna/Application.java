@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -21,20 +22,21 @@ import java.util.List;
 @EnableTransactionManagement
 @EnableJpaRepositories("com.boom.dianna.dao")
 @EntityScan("com.boom.dianna.model")
+//@ImportResource(value = {"classpath:META-INF/spring/ssogo-provider.xml"})
 public class Application {
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Application.class, args);
     }
 
-    @Bean
-    public FilterRegistrationBean jwtFilterRegistrationBean(){
-        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-        HTTPBearerAuthorizeAttribute httpBearerFilter = new HTTPBearerAuthorizeAttribute();
-        registrationBean.setFilter(httpBearerFilter);
-        List<String> urlPatterns = new ArrayList<String>();
-        urlPatterns.add("/user/getusers");
-        registrationBean.setUrlPatterns(urlPatterns);
-        return registrationBean;
-    }
+//    @Bean
+//    public FilterRegistrationBean jwtFilterRegistrationBean(){
+//        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+//        HTTPBearerAuthorizeAttribute httpBearerFilter = new HTTPBearerAuthorizeAttribute();
+//        registrationBean.setFilter(httpBearerFilter);
+//        List<String> urlPatterns = new ArrayList<String>();
+//        urlPatterns.add("/user/getusers");
+//        registrationBean.setUrlPatterns(urlPatterns);
+//        return registrationBean;
+//    }
 }

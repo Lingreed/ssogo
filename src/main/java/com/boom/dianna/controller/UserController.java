@@ -7,15 +7,20 @@ import com.boom.dianna.dto.UserDto;
 import com.boom.dianna.enumration.ResultStatusCode;
 import com.boom.dianna.model.User;
 import com.boom.dianna.model.UserInfo;
+import com.boom.dianna.service.IJwtService;
 import com.boom.dianna.utils.Md5Util;
+import com.boom.dianna.utils.RedisPrefix;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.DigestUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Author: lin.xj
@@ -31,14 +36,20 @@ public class UserController {
     @Autowired
     private IUserInfoDao userInfoDao;
 
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+
+    @Value("${jwt.expiresSecond}")
+    private long expiresSecond;
+
     /**
      * 测试token过滤器
      * @return
      */
     @RequestMapping("/user/getusers")
     public Object getUsers() {
-        System.out.println("---------------------------------");
-        return new ResultMsg();
+        List<UserDto> userDtos = userDao.getAllUsers();
+        return new ResultMsg(ResultStatusCode.OK.getErrcode(), ResultStatusCode.OK.getErrmsg(),userDtos);
     }
 
     /**
@@ -49,6 +60,11 @@ public class UserController {
     @RequestMapping("/user/add")
     public Object addUser(@RequestBody UserDto userDto){
         if(null != userDto && !userDto.getUserName().equals("")){
+            if(null != userDao.findByUserName(userDto.getUserName())){
+                return new ResultMsg(ResultStatusCode.EXIST_USERNAME.getErrcode(),
+                        ResultStatusCode.EXIST_USERNAME.getErrmsg(),null);
+            }
+
             User user = new User();
             BeanUtils.copyProperties(userDto,user);
             user.setAddTime(new Date());
@@ -72,13 +88,43 @@ public class UserController {
      * @param userDto
      * @return
      */
-    @RequestMapping("/userinfo/edit")
+    @RequestMapping("/user/edituserinfo")
     public Object editUserInfo(@RequestBody UserDto userDto){
         if(null != userDto){
             UserInfo userInfo = userInfoDao.findByUserId(userDto.getUserId());
             if(null != userInfo){
                 BeanUtils.copyProperties(userDto,userInfo);
                 userInfoDao.save(userInfo);
+                return new ResultMsg(ResultStatusCode.OK.getErrcode(),ResultStatusCode.OK.getErrmsg(),null);
+            }
+        }
+        return new ResultMsg(ResultStatusCode.INVALID_PARAMETER.getErrcode(),ResultStatusCode.INVALID_PARAMETER.getErrmsg(),null);
+    }
+
+    /**
+     * 设置用户启用或禁用
+     * @param userDto
+     * @return
+     */
+    @RequestMapping("/user/forbiden")
+    public Object setForbiden(@RequestBody UserDto userDto){
+        if(null != userDto){
+            User user = userDao.findOne(userDto.getUserId());
+            if(null != user){
+                user.setEnabled(userDto.getEnabled());
+                userDao.save(user);
+
+                //把禁用的用户存入redis,启用的用户从redis中删去
+                String userKey = String.format(RedisPrefix.ForbidenUser,user.getId());
+                if(userDto.getEnabled()){
+                    //启用
+                    redisTemplate.delete(userKey);
+                }else{
+                    //禁用
+                    redisTemplate.opsForValue().set(userKey,user.getUserName());
+                    redisTemplate.expire(userKey, expiresSecond, TimeUnit.SECONDS);
+                }
+
                 return new ResultMsg(ResultStatusCode.OK.getErrcode(),ResultStatusCode.OK.getErrmsg(),null);
             }
         }

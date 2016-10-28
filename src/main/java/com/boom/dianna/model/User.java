@@ -25,7 +25,7 @@ public class User extends BaseModel {
 
     private String info;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date addTime;
 
     public String getUserName() {

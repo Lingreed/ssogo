@@ -7,12 +7,13 @@ package com.boom.dianna.enumration;
  */
 public enum ResultStatusCode {
     OK(0, "OK"),
+    INVALID_TOKEN(30000, "Invalid token"),
     SYSTEM_ERR(30001, "System error"),
     INVALID_PARAMETER(30002, "Invalid parameter!"),
-    INVALID_CLIENTID(30003, "Invalid clientid"),
+    DISABLED_USER(30003, "User has been disabled!"),
     INVALID_PASSWORD(30004, "User name or password is incorrect"),
-    INVALID_CAPTCHA(30005, "Invalid captcha or captcha overdue"),
-    INVALID_TOKEN(30006, "Invalid token");
+    EXIST_USERNAME(30005, "Username is existing!"),
+    INVALID_CAPTCHA(30006, "Invalid captcha or captcha overdue");
 
     private int errcode;
     private String errmsg;

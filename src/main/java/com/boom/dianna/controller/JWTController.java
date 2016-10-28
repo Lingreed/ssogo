@@ -1,7 +1,6 @@
 package com.boom.dianna.controller;
 
 import com.boom.dianna.dto.LoginPara;
-import com.boom.dianna.dto.ResultMsg;
 import com.boom.dianna.service.IJwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +18,10 @@ public class JWTController {
     @Autowired
     private IJwtService jwtService;
 
-    @RequestMapping("oauth/token")
-    public Object getAccessToken(HttpServletRequest request, @RequestBody LoginPara loginPara)
-    {
+    @RequestMapping("/login")
+    public Object login(HttpServletRequest request, @RequestBody LoginPara loginPara) {
         String ip = request.getRemoteAddr();
         loginPara.setIp(ip);
-        ResultMsg resultMsg = (ResultMsg) jwtService.getAccessToken(loginPara);
-        return resultMsg;
+        return jwtService.getAccessToken(loginPara);
     }
 }

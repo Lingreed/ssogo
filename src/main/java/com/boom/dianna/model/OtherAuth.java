@@ -20,7 +20,7 @@ public class OtherAuth extends BaseModel {
     @Column(nullable = false)
     private String authId;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date addTime;
 
     public long getUserId() {

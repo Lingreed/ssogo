@@ -25,6 +25,25 @@ public class UserDto implements Serializable {
     private String qq;
     private String yy;
 
+    public UserDto() {
+    }
+
+    public UserDto(long userId, String userName, Boolean enabled, String info, Date addTime, Integer age, String sex, String province, String city, String area, String phone, String qq, String yy) {
+        this.userId = userId;
+        this.userName = userName;
+        this.enabled = enabled;
+        this.info = info;
+        this.addTime = addTime;
+        this.age = age;
+        this.sex = sex;
+        this.province = province;
+        this.city = city;
+        this.area = area;
+        this.phone = phone;
+        this.qq = qq;
+        this.yy = yy;
+    }
+
     public long getUserId() {
         return userId;
     }

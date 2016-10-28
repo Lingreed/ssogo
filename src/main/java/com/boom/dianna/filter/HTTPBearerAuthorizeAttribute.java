@@ -3,7 +3,9 @@ package com.boom.dianna.filter;
 import com.boom.dianna.dto.ResultMsg;
 import com.boom.dianna.enumration.ResultStatusCode;
 import com.boom.dianna.jwt.JwtHelper;
+import com.boom.dianna.service.IJwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -21,6 +23,9 @@ public class HTTPBearerAuthorizeAttribute implements Filter {
 
     @Value("${jwt.base64Security}")
     private String base64Security;
+
+    @Autowired
+    private IJwtService jwtService;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -47,7 +52,6 @@ public class HTTPBearerAuthorizeAttribute implements Filter {
                 auth = auth.substring(7, auth.length());
                 if (JwtHelper.parseJWT(auth, base64Security) != null)
                 {
-
                     chain.doFilter(request, response);
                     return;
                 }

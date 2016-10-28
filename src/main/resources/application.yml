@@ -22,6 +22,17 @@ spring:
     hibernate:
       ddl-auto: update
 
+  ### redis 配置
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    pool:
+      max-idle: 8
+      min-idle: 0
+      max-active: 8
+      max-wait: -1
+
 
 #logging:
 #  config: classpath:logback-dev.xml

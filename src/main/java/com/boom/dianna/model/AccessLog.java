@@ -20,7 +20,7 @@ public class AccessLog extends BaseModel {
 
     private String entryAddress;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date accessTime;
 
     public long getUserId() {
