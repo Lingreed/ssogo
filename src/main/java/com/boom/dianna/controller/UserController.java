@@ -1,10 +1,15 @@
 package com.boom.dianna.controller;
 
+import com.boom.dianna.dao.IOtherAuthDao;
+import com.boom.dianna.dao.IUserAuthDao;
 import com.boom.dianna.dao.IUserDao;
 import com.boom.dianna.dao.IUserInfoDao;
+import com.boom.dianna.dto.OtherAuthDto;
 import com.boom.dianna.dto.ResultMsg;
+import com.boom.dianna.dto.UserAuthDto;
 import com.boom.dianna.dto.UserDto;
 import com.boom.dianna.enumration.ResultStatusCode;
+import com.boom.dianna.model.OtherAuth;
 import com.boom.dianna.model.User;
 import com.boom.dianna.model.UserInfo;
 import com.boom.dianna.service.IJwtService;
@@ -35,6 +40,12 @@ public class UserController {
 
     @Autowired
     private IUserInfoDao userInfoDao;
+
+    @Autowired
+    private IOtherAuthDao otherAuthDao;
+
+    @Autowired
+    private IUserAuthDao userAuthDao;
 
     @Autowired
     private StringRedisTemplate redisTemplate;
@@ -130,5 +141,20 @@ public class UserController {
         }
         return new ResultMsg(ResultStatusCode.INVALID_PARAMETER.getErrcode(),ResultStatusCode.INVALID_PARAMETER.getErrmsg(),null);
     }
+
+    @RequestMapping("/user/linkotherauth")
+    public Object linkOtherAuth(@RequestBody OtherAuthDto otherAuthDto){
+        OtherAuth save = new OtherAuth();
+        BeanUtils.copyProperties(otherAuthDto,save);
+        save.setAddTime(new Date());
+        otherAuthDao.save(save);
+        return new ResultMsg(ResultStatusCode.OK.getErrcode(),ResultStatusCode.OK.getErrmsg(),null);
+    }
+
+//    @RequestMapping("/user/modifyauth")
+//    public Object modifyUserAuth(@RequestBody UserAuthDto model){
+//
+//        return null;
+//    }
 
 }
