@@ -1,17 +1,12 @@
 package com.boom.dianna;
 
-import com.boom.dianna.filter.HTTPBearerAuthorizeAttribute;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.orm.jpa.EntityScan;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Author: lin.xj
@@ -22,7 +17,7 @@ import java.util.List;
 @EnableTransactionManagement
 @EnableJpaRepositories("com.boom.dianna.dao")
 @EntityScan("com.boom.dianna.model")
-//@ImportResource(value = {"classpath:META-INF/spring/ssogo-provider.xml"})
+@ImportResource(value = {"classpath:META-INF/spring/ssogo-provider.xml"})
 public class Application {
 
     public static void main(String[] args) throws Exception {
