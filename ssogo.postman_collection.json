@@ -1,0 +1,116 @@
+{
+	"variables": [],
+	"info": {
+		"name": "ssogo",
+		"_postman_id": "6b245ff7-c1c6-1180-92f4-51cb0ae5143a",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "登录",
+			"request": {
+				"url": "{{url}}/login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userName\":\"test01\",\n\t\"password\":\"admin\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "添加用户",
+			"request": {
+				"url": "{{url}}/user/add",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userName\":\"test01\",\n\t\"pwd\":\"admin\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "获取所有的用户",
+			"request": {
+				"url": "{{url}}/user/getusers",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6InRlc3QwMSIsInVzZXJJZCI6IjEiLCJpcCI6IjA6MDowOjA6MDowOjA6MSIsImV4cCI6MTQ3NzcyMjU4OSwibmJmIjoxNDc3NjM2MTg5fQ.cwrTjki0A4jh0vAIhbuEDLSVrXRMslFgN1YBJaZzNoY",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "修改用户信息/user/edituserinfo",
+			"request": {
+				"url": "{{url}}/user/edituserinfo",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId\":1,\n\t\"age\":100,\n\t\"sex\": \"man\",\n\t\"province\":\"zhejiang\",\n\t\"city\":\"hangzhou\",\n\t\"area\":\"xiaoshan\",\n\t\"phone\":\"110\",\n\t\"qq\":\"11211\",\n\t\"yy\":\"22122\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "设置用户启用禁用/user/forbiden",
+			"request": {
+				"url": "{{url}}/user/forbiden",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId\":1,\n\t\"enabled\":false\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
