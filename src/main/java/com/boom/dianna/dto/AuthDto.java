@@ -9,6 +9,14 @@ public class AuthDto {
     private long id;
     private String authName;
 
+    public AuthDto() {
+    }
+
+    public AuthDto(long id, String authName) {
+        this.id = id;
+        this.authName = authName;
+    }
+
     public long getId() {
         return id;
     }

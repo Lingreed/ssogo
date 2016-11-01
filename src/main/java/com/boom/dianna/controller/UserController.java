@@ -4,14 +4,9 @@ import com.boom.dianna.dao.IOtherAuthDao;
 import com.boom.dianna.dao.IUserAuthDao;
 import com.boom.dianna.dao.IUserDao;
 import com.boom.dianna.dao.IUserInfoDao;
-import com.boom.dianna.dto.OtherAuthDto;
-import com.boom.dianna.dto.ResultMsg;
-import com.boom.dianna.dto.UserAuthDto;
-import com.boom.dianna.dto.UserDto;
+import com.boom.dianna.dto.*;
 import com.boom.dianna.enumration.ResultStatusCode;
-import com.boom.dianna.model.OtherAuth;
-import com.boom.dianna.model.User;
-import com.boom.dianna.model.UserInfo;
+import com.boom.dianna.model.*;
 import com.boom.dianna.service.IJwtService;
 import com.boom.dianna.utils.Md5Util;
 import com.boom.dianna.utils.RedisPrefix;
@@ -60,6 +55,10 @@ public class UserController {
     @RequestMapping("/user/getusers")
     public Object getUsers() {
         List<UserDto> userDtos = userDao.getAllUsers();
+        for(UserDto user : userDtos){
+            List<AuthDto> authDtos = userAuthDao.findUserAuthsByUserId(user.getUserId());
+            user.setAuths(authDtos);
+        }
         return new ResultMsg(ResultStatusCode.OK.getErrcode(), ResultStatusCode.OK.getErrmsg(),userDtos);
     }
 
@@ -151,10 +150,21 @@ public class UserController {
         return new ResultMsg(ResultStatusCode.OK.getErrcode(),ResultStatusCode.OK.getErrmsg(),null);
     }
 
-//    @RequestMapping("/user/modifyauth")
-//    public Object modifyUserAuth(@RequestBody UserAuthDto model){
-//
-//        return null;
-//    }
+    /**
+     * 设置用户权限
+     * @param model
+     * @return
+     */
+    @RequestMapping("/user/setauth")
+    public Object setUserAuth(@RequestBody UserAuthDto model){
+        int count = userAuthDao.deleteByUserId(model.getUserId());
+        for(Long authId : model.getAuthIds()){
+            UserAuth userAuth = new UserAuth();
+            userAuth.setUserId(model.getUserId());
+            userAuth.setAuthId(authId);
+            userAuthDao.save(userAuth);
+        }
+        return new ResultMsg(ResultStatusCode.OK.getErrcode(),ResultStatusCode.OK.getErrmsg(),null);
+    }
 
 }

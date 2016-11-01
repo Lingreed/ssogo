@@ -2,6 +2,7 @@ package com.boom.dianna.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Author: lin.xj
@@ -24,6 +25,7 @@ public class UserDto implements Serializable {
     private String phone;
     private String qq;
     private String yy;
+    private List<AuthDto> auths;
 
     public UserDto() {
     }
@@ -154,5 +156,13 @@ public class UserDto implements Serializable {
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public List<AuthDto> getAuths() {
+        return auths;
+    }
+
+    public void setAuths(List<AuthDto> auths) {
+        this.auths = auths;
     }
 }

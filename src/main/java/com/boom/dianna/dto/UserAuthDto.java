@@ -10,13 +10,23 @@ import java.util.List;
  * Description:
  */
 public class UserAuthDto {
-    private List<Auth> auths;
 
-    public List<Auth> getAuths() {
-        return auths;
+    private Long userId;
+    private List<Long> authIds;
+
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setAuths(List<Auth> auths) {
-        this.auths = auths;
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public List<Long> getAuthIds() {
+        return authIds;
+    }
+
+    public void setAuthIds(List<Long> authIds) {
+        this.authIds = authIds;
     }
 }
